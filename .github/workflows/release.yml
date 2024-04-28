@@ -1,10 +1,8 @@
 name: release
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Release version'
-        required: true
+  push:
+    tags:
+      - '*'
 
 permissions:
   contents: write
@@ -34,6 +32,21 @@ jobs:
         run: ./gradlew nativeCompile -P CHECKNIF_CERTIFICADO=certificado.p12 -P CHECKNIF_PASSWORD=$P12_PWD
         env:
           P12_PWD: ${{ secrets.P12_PWD }}
+
+      - name: version
+        run: echo "::set-output name=version::$(./gradlew properties -q | awk '/^version:/ {print $2}')"
+        id: version
+
+      - name: release
+        uses: actions/create-release@v1
+        id: create_release
+        with:
+          draft: false
+          prerelease: false
+          release_name: ${{ steps.version.outputs.version }}
+          tag_name: ${{ github.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
 
       - name: release output
         if: always()
