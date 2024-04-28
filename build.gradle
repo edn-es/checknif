@@ -1,0 +1,125 @@
+plugins {
+    id("groovy")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.micronaut.application") version "4.3.2"
+    id("io.micronaut.test-resources") version "4.3.2"
+    id("io.micronaut.aot") version "4.3.2"
+
+    id 'com.intershop.gradle.wsdl' version '3.2.2'
+}
+
+version = "0.1"
+group = "checkcif"
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    wsdlAxis2.extendsFrom(compile)
+}
+
+dependencies {
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    compileOnly("org.graalvm.nativeimage:svm")
+    runtimeOnly("ch.qos.logback:logback-classic")
+
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
+
+    implementation("io.micronaut.reactor:micronaut-reactor")
+
+    annotationProcessor("io.micronaut.openapi:micronaut-openapi")
+    implementation("io.swagger.core.v3:swagger-annotations")
+
+    annotationProcessor("io.micronaut:micronaut-graal")
+
+    implementation 'org.apache.axis2:axis2-adb:1.8.0'
+    implementation 'org.apache.axis2:axis2-transport-local:1.8.0'
+    implementation 'org.apache.axis2:axis2-transport-http:1.8.0'
+    implementation 'org.apache.ws.commons.axiom:axiom-impl:1.3.0'
+
+    wsdlAxis2 'org.apache.axis2:axis2-codegen:1.8.0'
+    wsdlAxis2 'org.apache.axis2:axis2-adb-codegen:1.8.0'
+    wsdlAxis2 'org.apache.ws.xmlschema:xmlschema-core:2.2.1'
+}
+
+application {
+    mainClass.set("rest2soap.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+graalvmNative{
+    toolchainDetection = false
+    binaries {
+        main {
+            verbose=true
+            buildArgs.add("--allow-incomplete-classpath")
+        }
+    }
+}
+
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("rest2soap.*")
+    }
+}
+
+
+wsdl {
+    axis2 {
+        nif {
+            wsdlFile = file("src/wsdls/VNifV2.wsdl")
+            allPorts = true
+            databindingMethod = 'adb'
+            serverSide = false
+            generateAllClasses = true
+            unpackClasses = true
+        }
+    }
+}
+
+// fix wrong directory
+tasks.getByName("axis2Wsdl2javaNif").doLast {
+    ant.move(
+            file:file('build/generated/wsdl2java/axis2/nif/src/es').absolutePath,
+            tofile:file('build/generated/wsdl2java/axis2/nif/es').absolutePath
+    )
+}
+
+test{
+    systemProperties = [
+            'org.apache.commons.logging.Log':'org.apache.commons.logging.impl.SimpleLog',
+            'org.apache.commons.logging.simplelog.showdatetime':'true',
+            'org.apache.commons.logging.simplelog.showShortLogname':'true',
+            'org.apache.commons.logging.simplelog.log.httpclient.wire':'debug',
+            'org.apache.commons.logging.simplelog.log.org.apache.commons.httpclient':'debug',
+
+    ]
+    environment('CHECKNIF_CERTIFICADO', project.findProperty('CHECKNIF_CERTIFICADO')?:'certificado.p12')
+    environment('CHECKNIF_PASSWORD', project.findProperty('CHECKNIF_PASSWORD')?:'lapwd')
+}
+
+run{
+    jvmArgs = ['-Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.SimpleLog',
+               '-Dorg.apache.commons.logging.simplelog.showdatetime=true',
+               '-Dorg.apache.commons.logging.simplelog.showShortLogname=true',
+               '-Dorg.apache.commons.logging.simplelog.log.httpclient.wire=debug',
+               '-Dorg.apache.commons.logging.simplelog.log.org.apache.commons.httpclient=debug'
+    ]
+    environment('CHECKNIF_CERTIFICADO', project.findProperty('CHECKNIF_CERTIFICADO')?:'certificado.p12')
+    environment('CHECKNIF_PASSWORD', project.findProperty('CHECKNIF_PASSWORD')?:'lapwd')
+}
+
+tasks.named("dockerBuildNative") {
+    images = ["ednes/checknif:$project.version"]
+}

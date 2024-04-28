@@ -1,0 +1,219 @@
+{
+    "resources": {
+        "includes": [
+            {
+                "pattern": "\\QMETA-INF/axiom.xml\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/micronaut/io.micronaut.context.ApplicationContextConfigurer\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/micronaut/io.micronaut.context.env.PropertyExpressionResolver\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/micronaut/io.micronaut.context.env.PropertySourceLoader\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/micronaut/io.micronaut.core.beans.BeanIntrospectionReference\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/micronaut/io.micronaut.core.convert.TypeConverterRegistrar\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/micronaut/io.micronaut.http.HttpRequestFactory\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/micronaut/io.micronaut.http.HttpResponseFactory\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/micronaut/io.micronaut.inject.BeanConfiguration\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/micronaut/io.micronaut.inject.BeanDefinitionReference\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/module.xml\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/ch.qos.logback.classic.spi.Configurator\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/io.micronaut.context.ApplicationContextConfigurer\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/io.micronaut.context.env.PropertyExpressionResolver\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/io.micronaut.context.env.PropertySourceLoader\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/io.micronaut.core.beans.BeanIntrospectionReference\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/io.micronaut.core.convert.TypeConverterRegistrar\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/io.micronaut.core.optim.StaticOptimizations$Loader\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/io.micronaut.core.type.TypeInformationProvider\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/io.micronaut.http.HttpRequestFactory\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/io.micronaut.http.HttpResponseFactory\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/io.micronaut.inject.BeanConfiguration\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/io.micronaut.inject.BeanDefinitionReference\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/io.micronaut.json.JsonMapperSupplier\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/io.micronaut.test.support.TestPropertyProviderFactory\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/java.lang.System$LoggerFinder\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/java.net.spi.InetAddressResolverProvider\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/java.net.spi.URLStreamHandlerProvider\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/java.nio.channels.spi.SelectorProvider\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/java.nio.file.spi.FileSystemProvider\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/java.time.zone.ZoneRulesProvider\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/javax.xml.parsers.DocumentBuilderFactory\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/javax.xml.parsers.SAXParserFactory\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/javax.xml.stream.XMLInputFactory\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/org.apache.commons.logging.LogFactory\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/org.junit.platform.engine.TestEngine\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/org.junit.platform.launcher.LauncherDiscoveryListener\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/org.junit.platform.launcher.LauncherSessionListener\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/org.junit.platform.launcher.PostDiscoveryFilter\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/org.junit.platform.launcher.TestExecutionListener\\E"
+            },
+            {
+                "pattern": "\\QMETA-INF/services/org.slf4j.spi.SLF4JServiceProvider\\E"
+            },
+            {
+                "pattern": "\\QXMLInputFactory.properties\\E"
+            },
+            {
+                "pattern": "\\Qapplication-test.json\\E"
+            },
+            {
+                "pattern": "\\Qapplication-test.properties\\E"
+            },
+            {
+                "pattern": "\\Qapplication.json\\E"
+            },
+            {
+                "pattern": "\\Qapplication.properties\\E"
+            },
+            {
+                "pattern": "\\Qcom/ctc/wstx/stax/WstxInputFactory.class\\E"
+            },
+            {
+                "pattern": "\\Qcommons-logging.properties\\E"
+            },
+            {
+                "pattern": "\\Qjunit-platform.properties\\E"
+            },
+            {
+                "pattern": "\\Qlogback-test.scmo\\E"
+            },
+            {
+                "pattern": "\\Qlogback-test.xml\\E"
+            },
+            {
+                "pattern": "\\Qlogback.scmo\\E"
+            },
+            {
+                "pattern": "\\Qlogback.xml\\E"
+            },
+            {
+                "pattern": "\\Qmozilla/public-suffix-list.txt\\E"
+            },
+            {
+                "pattern": "\\Qorg/apache/axiom/om/impl/dom/nodetypes.index\\E"
+            },
+            {
+                "pattern": "\\Qorg/apache/axiom/om/impl/llom/nodetypes.index\\E"
+            },
+            {
+                "pattern": "\\Qorg/apache/axiom/soap/impl/dom/nodetypes.index\\E"
+            },
+            {
+                "pattern": "\\Qorg/apache/axiom/soap/impl/dom/soap11/nodetypes.index\\E"
+            },
+            {
+                "pattern": "\\Qorg/apache/axiom/soap/impl/dom/soap12/nodetypes.index\\E"
+            },
+            {
+                "pattern": "\\Qorg/apache/axiom/soap/impl/llom/nodetypes.index\\E"
+            },
+            {
+                "pattern": "\\Qorg/apache/axiom/soap/impl/llom/soap11/nodetypes.index\\E"
+            },
+            {
+                "pattern": "\\Qorg/apache/axiom/soap/impl/llom/soap12/nodetypes.index\\E"
+            },
+            {
+                "pattern": "\\Qorg/apache/axis2/deployment/axis2_default.xml\\E"
+            },
+            {
+                "pattern": "\\Qorg/apache/http/client/version.properties\\E"
+            },
+            {
+                "pattern": "\\Qorg/slf4j/impl/StaticLoggerBinder.class\\E"
+            },
+            {
+                "pattern": "\\Qsimplelog.properties\\E"
+            },
+            {
+                "pattern": "java.base:\\Qjdk/internal/icu/impl/data/icudt72b/nfc.nrm\\E"
+            },
+            {
+                "pattern": "java.base:\\Qjdk/internal/icu/impl/data/icudt72b/nfkc.nrm\\E"
+            },
+            {
+                "pattern": "java.base:\\Qjdk/internal/icu/impl/data/icudt72b/uprops.icu\\E"
+            },
+            {
+                "pattern": "java.base:\\Qsun/net/idn/uidna.spp\\E"
+            }
+        ]
+    },
+    "bundles": [
+        
+    ]
+}
