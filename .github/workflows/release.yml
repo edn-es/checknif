@@ -10,47 +10,7 @@ permissions:
   contents: write
 
 jobs:
-  precheck:
-    name: Precheck
-    runs-on: ubuntu-latest
-    outputs:
-      VERSION: ${{ steps.vars.outputs.VERSION }}
-    steps:
-      - name: Environment
-        run: env | sort
-      - uses: actions/checkout@v4
-
-      - name: save p12 to file
-        run: |
-          echo -n $P12 | base64 -d > ./certificado.p12
-        env:
-          P12: ${{ secrets.P12 }}
-
-      - name: Set up JDK 21 for x64
-        uses: graalvm/setup-graalvm@v1
-        with:
-          java-version: 21
-          distribution: 'graalvm'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Compile
-        run: ./gradlew build -P CHECKNIF_CERTIFICADO=certificado.p12 -P CHECKNIF_PASSWORD=${P12_PWD}
-        env:
-          P12_PWD: ${{ secrets.P12_PWD }}
-
-      - name: Version
-        id: vars
-        shell: bash
-        run: |
-          VERSION=${{ github.event.inputs.version }}
-          sed -i "s/^[#]*\s*version=.*/version=$VERSION/" gradle.properties
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "GitHub Action"
-          git commit -a -m "Releasing version $VERSION"
-          git push origin main
-
   release:
-    needs: [ precheck ]
     runs-on: ubuntu-latest
     steps:
       - name: Environment
