@@ -25,12 +25,12 @@ jobs:
         env:
           P12: ${{ secrets.P12 }}
 
-      - name: Set up JDK 17 for x64
-        uses: ayltai/setup-graalvm@v1
+      - name: Set up JDK 21 for x64
+        uses: graalvm/setup-graalvm@v1
         with:
           java-version: 21
-          graalvm-version: 21.1.0
-          native-image: true
+          distribution: 'graalvm'
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compile
         run: ./gradlew build -P CHECKNIF_CERTIFICADO=certificado.p12 -P CHECKNIF_PASSWORD="$P12_PWD"
