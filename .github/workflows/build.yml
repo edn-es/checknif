@@ -21,7 +21,7 @@ jobs:
 
       - name: save p12 to file
         run: |
-          echo -n $P12 | base64 -d -o ./certificado.p12
+          echo -n $P12 | base64 -d > ./certificado.p12
         env:
           P12: ${{ secrets.P12 }}
 
