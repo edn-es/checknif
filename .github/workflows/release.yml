@@ -6,6 +6,9 @@ on:
         description: 'Release version'
         required: true
 
+permissions:
+  contents: write
+
 jobs:
   precheck:
     name: Precheck
@@ -31,7 +34,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Compile
-        run: ./gradlew build -P CHECKNIF_CERTIFICADO=certificado.p12 -P CHECKNIF_PASSWORD=$P12_PWD
+        run: ./gradlew build -P CHECKNIF_CERTIFICADO=certificado.p12 -P CHECKNIF_PASSWORD=${P12_PWD}
         env:
           P12_PWD: ${{ secrets.P12_PWD }}
 
