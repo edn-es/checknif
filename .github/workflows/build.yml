@@ -1,0 +1,39 @@
+name: build
+on:
+  push:
+    tags:
+      - 'main'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Environment
+        run: env | sort
+      - uses: actions/checkout@v4
+
+      - name: save p12 to file
+        run: |
+          echo -n $P12 | base64 -d -o ./certificado.p12
+        env:
+          P12: ${{ secrets.P12 }}
+
+      - name: Set up JDK 17 for x64
+        uses: ayltai/setup-graalvm@v1
+        with:
+          java-version: 21
+          graalvm-version: 21.1.0
+          native-image: true
+
+      - name: Compile
+        run: ./gradlew build -P CHECKNIF_CERTIFICADO=certificado.p12 -P CHECKNIF_PASSWORD="$P12_PWD"
+        env:
+          P12_PWD: ${{ secrets.P12_PWD }}
+
