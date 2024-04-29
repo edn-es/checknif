@@ -45,13 +45,16 @@ jobs:
           prerelease: false
           release_name: ${{ steps.version.outputs.version }}
           tag_name: ${{ github.ref }}
+          body_path: CHANGELOG.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN  }}
 
-      - name: release output
-        if: always()
-        uses: actions/upload-artifact@v4
+      - name: upload linux artifact
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         with:
-          name: checknif
-          path: |
-            build/native/nativeCompile/checknif
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/native/nativeCompile/checknif
+          asset_name: checknif
+          asset_content_type: binary/octet-stream
