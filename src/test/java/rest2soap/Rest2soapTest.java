@@ -15,6 +15,7 @@ import rest2soap.model.Contribuyente;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @MicronautTest
 class Rest2soapTest {
@@ -31,7 +32,15 @@ class Rest2soapTest {
     void testCifs(@Client("/") HttpClient httpClient) throws Exception{
         BlockingHttpClient client = httpClient.toBlocking();
         URI uri = UriBuilder.of("/").path("/cifs").build();
-        var str = client.retrieve(HttpRequest.POST(uri, List.of("B1234456")));
+        var str = client.retrieve(HttpRequest.POST(uri, List.of("B80988801")));
+        System.out.println(str);
+    }
+
+    @Test
+    void testCif(@Client("/") HttpClient httpClient) throws Exception{
+        BlockingHttpClient client = httpClient.toBlocking();
+        URI uri = UriBuilder.of("/").path("/cif").build();
+        var str = client.retrieve(HttpRequest.POST(uri, Map.of("cif","B80988801")));
         System.out.println(str);
     }
 
