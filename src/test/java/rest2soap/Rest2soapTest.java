@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Assertions;
 import jakarta.inject.Inject;
 import rest2soap.api.NifRequest;
 import rest2soap.model.Contribuyente;
+import rest2soap.model.ContribuyenteRequest;
 
 import java.net.URI;
 import java.util.List;
@@ -44,4 +45,23 @@ class Rest2soapTest {
         System.out.println(str);
     }
 
+    @Test
+    void testNifs(@Client("/") HttpClient httpClient) throws Exception{
+        BlockingHttpClient client = httpClient.toBlocking();
+        URI uri = UriBuilder.of("/").path("/nifs").build();
+        var str = client.retrieve(HttpRequest.POST(uri, List.of(new ContribuyenteRequest(
+                "123456789Q", "Juan"
+        ))));
+        System.out.println(str);
+    }
+
+    @Test
+    void testNif(@Client("/") HttpClient httpClient) throws Exception{
+        BlockingHttpClient client = httpClient.toBlocking();
+        URI uri = UriBuilder.of("/").path("/nif").build();
+        var str = client.retrieve(HttpRequest.POST(uri, new ContribuyenteRequest(
+                "123456789Q", "Juan"
+        )));
+        System.out.println(str);
+    }
 }

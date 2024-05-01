@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import rest2soap.model.Contribuyente;
+import rest2soap.model.ContribuyenteRequest;
 import rest2soap.service.SoapService;
 
 import java.util.List;
@@ -37,5 +38,20 @@ public class RestController {
                 soapService.checkCifs(List.of(cif)).findFirst().orElse(new Contribuyente(
                         cif, "", false, "NO ENCONTRADO"
                 )) );
+    }
+
+    @Post("/nifs")
+    Flux<Contribuyente> nifs(@Body List<ContribuyenteRequest> contribuyentes)  {
+        logger.info("Validate nifs {}", contribuyentes.size());
+        return Flux.fromStream(()->soapService.checkNifs(contribuyentes));
+    }
+
+    @Post("/nif")
+    Mono<Contribuyente> nif(@Body ContribuyenteRequest contribuyente)  {
+        logger.info("Validate nif {}", contribuyente.nif());
+        return Mono.fromCallable(()->
+                soapService.checkNifs(List.of(contribuyente)).findFirst().orElse(new Contribuyente(
+                        contribuyente.nif(), contribuyente.nombre(), false, "NO ENCONTRADO"
+                )));
     }
 }

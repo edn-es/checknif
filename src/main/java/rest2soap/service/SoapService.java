@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rest2soap.model.Contribuyente;
 import rest2soap.config.SslFactory;
+import rest2soap.model.ContribuyenteRequest;
 
 import java.rmi.RemoteException;
 import java.util.Arrays;
@@ -43,6 +44,20 @@ public class SoapService {
             ret.setNombre("");
             return ret;
         }).toList();
+        return check(contribuyentes);
+    }
+
+    public Stream<Contribuyente> checkNifs(List<ContribuyenteRequest> request) {
+        var contribuyentes = request.stream().map(c->{
+            var ret = new Contribuyente_type0();
+            ret.setNif(c.nif());
+            ret.setNombre(c.nombre());
+            return ret;
+        }).toList();
+        return check(contribuyentes);
+    }
+
+    protected Stream<Contribuyente> check(List<Contribuyente_type0> contribuyentes) {
 
         var ent = new VNifV2Ent();
         ent.setContribuyente( contribuyentes.toArray(new Contribuyente_type0[0]) );
@@ -58,7 +73,7 @@ public class SoapService {
                 return new Contribuyente(s.getNif(), s.getNombre().trim(), ok, result);
             });
         }catch(Exception e){
-            logger.error("Error checking cifs {}", cifs, e);
+            logger.error("Error checking cifs", e);
             return Stream.of();
         }
     }
