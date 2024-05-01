@@ -30,4 +30,12 @@ public class RestController {
         return Flux.fromStream(()-> soapService.checkCifs(request) );
     }
 
+    @Post("/cif")
+    Mono<Contribuyente> cifs(String cif)  {
+        logger.info("Validate cifs {}", cif);
+        return Mono.fromCallable(()->
+                soapService.checkCifs(List.of(cif)).findFirst().orElse(new Contribuyente(
+                        cif, "", false, "NO ENCONTRADO"
+                )) );
+    }
 }
