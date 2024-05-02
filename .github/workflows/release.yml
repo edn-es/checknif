@@ -15,11 +15,10 @@ jobs:
         run: env | sort
       - uses: actions/checkout@v4
 
-      - name: save p12 to file
+      - name: generate p12
         run: |
-          echo -n $P12 | base64 -d > ./certificado.p12
-        env:
-          P12: ${{ secrets.P12 }}
+          openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes -subj /CN=MyHost.com
+          openssl pkcs12 -export -in cert.pem -inkey key.pem -out certificado.p12 -name "Alias of cert" -passout pass:"checknif" -passin pass:""          
 
       - name: Set up JDK 21 for x64
         uses: graalvm/setup-graalvm@v1
@@ -28,10 +27,11 @@ jobs:
           distribution: 'graalvm'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Compile
-        run: ./gradlew nativeCompile -P CHECKNIF_CERTIFICADO=certificado.p12 -P CHECKNIF_PASSWORD=$P12_PWD
-        env:
-          P12_PWD: ${{ secrets.P12_PWD }}
+      - name: test
+        run: ./gradlew test -P CHECKNIF_CERTIFICADO=certificado.p12 -P CHECKNIF_PASSWORD=checknif
+
+      - name: Build
+        run: ./gradlew nativeCompile
 
       - name: version
         run: echo "::set-output name=version::$(./gradlew properties -q | awk '/^version:/ {print $2}')"

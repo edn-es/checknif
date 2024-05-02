@@ -31,5 +31,5 @@ jobs:
           distribution: 'graalvm'
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Compile
-        run: ./gradlew nativeCompile -P CHECKNIF_CERTIFICADO=certificado.p12 -P CHECKNIF_PASSWORD=checknif
+      - name: test
+        run: ./gradlew test -P CHECKNIF_CERTIFICADO=certificado.p12 -P CHECKNIF_PASSWORD=checknif
