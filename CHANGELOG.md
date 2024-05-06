@@ -1,5 +1,9 @@
 # Changelog
 
+## Release 0.0.3
+
+Nuevo endpoint para validar si un Nif está en recargo de equivalencia
+
 
 ## Release 0.0.2
 
