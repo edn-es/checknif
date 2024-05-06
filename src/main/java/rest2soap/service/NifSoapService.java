@@ -6,31 +6,27 @@ import es.gob.agenciatributaria.www2.static_files.common.internet.dep.aplicacion
 import es.gob.agenciatributaria.www2.static_files.common.internet.dep.aplicaciones.es.aeat.burt.jdit.ws.vnifv2ent_xsd.VNifV2EntE;
 import io.micronaut.context.annotation.Context;
 import jakarta.inject.Singleton;
-import org.apache.axis2.client.Options;
 import org.apache.axis2.transport.http.HTTPConstants;
-import org.apache.http.client.HttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import rest2soap.model.Contribuyente;
 import rest2soap.config.SslFactory;
 import rest2soap.model.ContribuyenteRequest;
 
-import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Singleton
 @Context
-public class SoapService {
+public class NifSoapService {
 
-    private static final Logger logger = LoggerFactory.getLogger(SoapService.class);
+    private static final Logger logger = LoggerFactory.getLogger(NifSoapService.class);
     private static final String IDENTIFICADO = "IDENTIFICADO";
 
     private final VNifV2ServiceStub vNifV2ServiceStub;
 
-    public SoapService(SslFactory sslFactory) throws Exception {
+    public NifSoapService(SslFactory sslFactory) throws Exception {
         this.vNifV2ServiceStub = new VNifV2ServiceStub();
         this.vNifV2ServiceStub._getServiceClient()
                 .getOptions()

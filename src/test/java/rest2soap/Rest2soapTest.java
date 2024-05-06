@@ -64,4 +64,12 @@ class Rest2soapTest {
         )));
         System.out.println(str);
     }
+
+    @Test
+    void testRecargo(@Client("/") HttpClient httpClient) throws Exception{
+        BlockingHttpClient client = httpClient.toBlocking();
+        URI uri = UriBuilder.of("/").path("/recargo/50954791Q").build();
+        var str = client.retrieve(HttpRequest.GET(uri));
+        System.out.println(str);
+    }
 }

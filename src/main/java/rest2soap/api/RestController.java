@@ -10,7 +10,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import rest2soap.model.Contribuyente;
 import rest2soap.model.ContribuyenteRequest;
-import rest2soap.service.SoapService;
+import rest2soap.model.RecargoEquivalenciaResponse;
+import rest2soap.service.NifSoapService;
+import rest2soap.service.RecargoEquivalenciaSoapService;
 
 import java.util.List;
 
@@ -19,23 +21,27 @@ import java.util.List;
 public class RestController {
     private static final Logger logger = LoggerFactory.getLogger(RestController.class);
 
-    private final SoapService soapService;
+    private final NifSoapService nifSoapService;
 
-    public RestController(SoapService soapService) {
-        this.soapService = soapService;
+    private final RecargoEquivalenciaSoapService recargoEquivalenciaSoapService;
+
+    public RestController(NifSoapService nifSoapService,
+                          RecargoEquivalenciaSoapService recargoEquivalenciaSoapService) {
+        this.nifSoapService = nifSoapService;
+        this.recargoEquivalenciaSoapService = recargoEquivalenciaSoapService;
     }
 
     @Post("/cifs")
     Flux<Contribuyente> cifs(@Body List<String> request)  {
         logger.info("Validate cifs {}", request);
-        return Flux.fromStream(()-> soapService.checkCifs(request) );
+        return Flux.fromStream(()-> nifSoapService.checkCifs(request) );
     }
 
     @Post("/cif")
     Mono<Contribuyente> cifs(String cif)  {
         logger.info("Validate cifs {}", cif);
         return Mono.fromCallable(()->
-                soapService.checkCifs(List.of(cif)).findFirst().orElse(new Contribuyente(
+                nifSoapService.checkCifs(List.of(cif)).findFirst().orElse(new Contribuyente(
                         cif, "", false, "NO ENCONTRADO"
                 )) );
     }
@@ -43,15 +49,22 @@ public class RestController {
     @Post("/nifs")
     Flux<Contribuyente> nifs(@Body List<ContribuyenteRequest> contribuyentes)  {
         logger.info("Validate nifs {}", contribuyentes.size());
-        return Flux.fromStream(()->soapService.checkNifs(contribuyentes));
+        return Flux.fromStream(()-> nifSoapService.checkNifs(contribuyentes));
     }
 
     @Post("/nif")
     Mono<Contribuyente> nif(@Body ContribuyenteRequest contribuyente)  {
         logger.info("Validate nif {}", contribuyente.nif());
         return Mono.fromCallable(()->
-                soapService.checkNifs(List.of(contribuyente)).findFirst().orElse(new Contribuyente(
+                nifSoapService.checkNifs(List.of(contribuyente)).findFirst().orElse(new Contribuyente(
                         contribuyente.nif(), contribuyente.nombre(), false, "NO ENCONTRADO"
                 )));
+    }
+
+    @Get("/recargo/{nif}")
+    Mono<RecargoEquivalenciaResponse> recargoEquivalencia(String nif)  {
+        logger.info("Validate recargo equivalencia {}", nif);
+        return Mono.fromCallable(()->
+                recargoEquivalenciaSoapService.checkRecargoEquivalencia(nif));
     }
 }
