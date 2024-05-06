@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/bugc/jdit/ws/CompRecEquivSal.xsd" 
+		xmlns="http://www.w3.org/2001/XMLSchema" 
+		xmlns:CompRecEquivSal="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/bugc/jdit/ws/CompRecEquivSal.xsd" 
+		elementFormDefault="qualified">
+
+	<annotation>
+		<documentation>
+			Esquema de respuesta del servico de verificación de NIF.
+		</documentation>
+	</annotation>
+
+	<element name="CompRecEquivSal" type="CompRecEquivSal:CompRecEquivSal"/>
+	
+	<complexType name="CompRecEquivSal">
+		
+		<sequence>
+			<element name="Contribuyente" >
+				<complexType>
+					<sequence>
+						
+						<element name="Resultado" type="string"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+</schema>

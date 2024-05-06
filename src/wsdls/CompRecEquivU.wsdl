@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<wsdl:definitions 
+xmlns:CompRecEquivU="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/bugc/jdit/ws/CompRecEquivU.wsdl" 
+xmlns:CompRecEquivEnt="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/bugc/jdit/ws/CompRecEquivEnt.xsd" 
+xmlns:CompRecEquivSal="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/bugc/jdit/ws/CompRecEquivSal.xsd" 
+xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" 
+xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+targetNamespace="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/bugc/jdit/ws/CompRecEquivU.wsdl">
+	<wsdl:types>
+		<schema elementFormDefault="qualified"  
+		targetNamespace="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/bugc/jdit/ws/CompRecEquivU.wsdl"
+		xmlns:CompRecEquivEnt="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/bugc/jdit/ws/CompRecEquivEnt.xsd" 
+		xmlns:CompRecEquivSal="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/bugc/jdit/ws/CompRecEquivSal.xsd" 
+		xmlns="http://www.w3.org/2001/XMLSchema">
+			<xsd:import namespace="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/bugc/jdit/ws/CompRecEquivEnt.xsd" schemaLocation="CompRecEquivEnt.xsd"/>
+			<xsd:import namespace="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/bugc/jdit/ws/CompRecEquivSal.xsd" schemaLocation="CompRecEquivSal.xsd"/>
+		</schema>
+	</wsdl:types>
+	
+	<wsdl:message name="Entrada">
+		<wsdl:part name="CompRecEquivEnt" element="CompRecEquivEnt:CompRecEquivEnt"/>
+	</wsdl:message>
+	<wsdl:message name="Salida">
+		<wsdl:part name="CompRecEquivSal" element="CompRecEquivSal:CompRecEquivSal"/>
+	</wsdl:message>
+
+	<wsdl:portType name="CompRecEquivU">
+		<wsdl:operation name="CompRecEquivU">
+			<wsdl:input name="Entrada" message="CompRecEquivU:Entrada"/>
+			<wsdl:output name="Salida" message="CompRecEquivU:Salida"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	
+	<wsdl:binding name="CompRecEquivUSoapBinding" type="CompRecEquivU:CompRecEquivU">
+		<wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="CompRecEquivU">
+			<wsdlsoap:operation soapAction=""/>
+			<wsdl:input name="Entrada">
+				<wsdlsoap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output name="Salida">
+				<wsdlsoap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+
+	<wsdl:service name="CompRecEquivUService">
+		<!--Puerto para conexiones desde internet en DESA  -->
+		<wsdl:port name="CompRecEquivUPort1" binding="CompRecEquivU:CompRecEquivUSoapBinding">
+			<wsdlsoap:address location="https://www1.agenciatributaria.gob.aeat/wlpl/BUGC-JDIT/ws/CompRecEquivSOAP"/>
+		</wsdl:port>
+		<!--Puerto para conexiones desde internet en PRE  -->
+		<wsdl:port name="CompRecEquivUPort2" binding="CompRecEquivU:CompRecEquivUSoapBinding">
+			<wsdlsoap:address location="https://prewww1.agenciatributaria.gob.aeat/wlpl/BUGC-JDIT/ws/CompRecEquivSOAP"/>
+		</wsdl:port>
+		<!--Puerto para conexiones desde internet en PRO  -->
+		<wsdl:port name="CompRecEquivUPort3" binding="CompRecEquivU:CompRecEquivUSoapBinding">
+			<wsdlsoap:address location="https://www1.agenciatributaria.gob.es/wlpl/BUGC-JDIT/ws/CompRecEquivSOAP"/>
+		</wsdl:port>
+	</wsdl:service>
+
+	
+</wsdl:definitions>

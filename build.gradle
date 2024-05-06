@@ -84,6 +84,14 @@ wsdl {
             generateAllClasses = true
             unpackClasses = true
         }
+        recargo {
+            wsdlFile = file("src/wsdls/CompRecEquivU.wsdl")
+            allPorts = true
+            databindingMethod = 'adb'
+            serverSide = false
+            generateAllClasses = true
+            unpackClasses = true
+        }
     }
 }
 
@@ -92,6 +100,13 @@ tasks.getByName("axis2Wsdl2javaNif").doLast {
     ant.move(
             file:file('build/generated/wsdl2java/axis2/nif/src/es').absolutePath,
             tofile:file('build/generated/wsdl2java/axis2/nif/es').absolutePath
+    )
+}
+
+tasks.getByName("axis2Wsdl2javaRecargo").doLast {
+    ant.move(
+            file:file('build/generated/wsdl2java/axis2/recargo/src/es').absolutePath,
+            tofile:file('build/generated/wsdl2java/axis2/recargo/es').absolutePath
     )
 }
 

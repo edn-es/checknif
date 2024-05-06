@@ -390,7 +390,29 @@
         ]
     },
     {
+        "name": "com.sun.crypto.provider.TlsKeyMaterialGenerator",
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+                    
+                ]
+            }
+        ]
+    },
+    {
         "name": "com.sun.crypto.provider.TlsMasterSecretGenerator",
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+                    
+                ]
+            }
+        ]
+    },
+    {
+        "name": "com.sun.crypto.provider.TlsPrfGenerator$V12",
         "methods": [
             {
                 "name": "<init>",
@@ -624,10 +646,6 @@
         "name": "io.micronaut.core.beans.BeanInfo",
         "allDeclaredClasses": true,
         "queryAllPublicMethods": true
-    },
-    {
-        "name": "io.micronaut.core.beans.exceptions.IntrospectionException",
-        "queryAllDeclaredMethods": true
     },
     {
         "name": "io.micronaut.core.naming.Named",
@@ -1084,10 +1102,6 @@
         ]
     },
     {
-        "name": "io.micronaut.http.client.exceptions.HttpClientResponseException",
-        "queryAllDeclaredMethods": true
-    },
-    {
         "name": "io.micronaut.http.client.filter.$DefaultHttpClientFilterResolver$Definition$Reference",
         "methods": [
             {
@@ -1302,10 +1316,6 @@
                 ]
             }
         ]
-    },
-    {
-        "name": "io.micronaut.http.codec.CodecException",
-        "queryAllDeclaredMethods": true
     },
     {
         "name": "io.micronaut.http.converters.$HttpConverterRegistrar$Definition$Reference",
@@ -3669,10 +3679,6 @@
         ]
     },
     {
-        "name": "io.micronaut.serde.exceptions.SerdeException",
-        "queryAllDeclaredMethods": true
-    },
-    {
         "name": "io.micronaut.serde.jackson.$JacksonJsonMapper$Definition$Reference",
         "methods": [
             {
@@ -5434,10 +5440,6 @@
         "name": "java.lang.Enum"
     },
     {
-        "name": "java.lang.Exception",
-        "queryAllDeclaredMethods": true
-    },
-    {
         "name": "java.lang.ProcessHandle",
         "methods": [
             {
@@ -6906,6 +6908,14 @@
         "name": "org.fusesource.jansi.AnsiConsole"
     },
     {
+        "name": "reactor.core.publisher.FlatMapTracker",
+        "fields": [
+            {
+                "name": "size"
+            }
+        ]
+    },
+    {
         "name": "reactor.core.publisher.Flux"
     },
     {
@@ -6935,6 +6945,20 @@
         "fields": [
             {
                 "name": "error"
+            },
+            {
+                "name": "wip"
+            }
+        ]
+    },
+    {
+        "name": "reactor.core.publisher.FluxFlatMap$FlatMapMain",
+        "fields": [
+            {
+                "name": "error"
+            },
+            {
+                "name": "requested"
             },
             {
                 "name": "wip"
@@ -7006,6 +7030,14 @@
     },
     {
         "name": "reactor.core.publisher.Mono"
+    },
+    {
+        "name": "reactor.core.publisher.MonoCallable$MonoCallableSubscription",
+        "fields": [
+            {
+                "name": "requestedOnce"
+            }
+        ]
     },
     {
         "name": "reactor.core.publisher.MonoDelay$MonoDelayRunnable",
@@ -7170,6 +7202,12 @@
                 ]
             },
             {
+                "name": "testCif",
+                "parameterTypes": [
+                    "io.micronaut.http.client.HttpClient"
+                ]
+            },
+            {
                 "name": "testCifs",
                 "parameterTypes": [
                     "io.micronaut.http.client.HttpClient"
@@ -7179,6 +7217,24 @@
                 "name": "testItWorks",
                 "parameterTypes": [
                     
+                ]
+            },
+            {
+                "name": "testNif",
+                "parameterTypes": [
+                    "io.micronaut.http.client.HttpClient"
+                ]
+            },
+            {
+                "name": "testNifs",
+                "parameterTypes": [
+                    "io.micronaut.http.client.HttpClient"
+                ]
+            },
+            {
+                "name": "testRecargo",
+                "parameterTypes": [
+                    "io.micronaut.http.client.HttpClient"
                 ]
             }
         ],
@@ -7243,7 +7299,40 @@
         ]
     },
     {
-        "name": "rest2soap.service.$SoapService$Definition$Reference",
+        "name": "rest2soap.model.$ContribuyenteRequest$IntrospectionRef",
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+                    
+                ]
+            }
+        ]
+    },
+    {
+        "name": "rest2soap.model.$RecargoEquivalenciaResponse$IntrospectionRef",
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+                    
+                ]
+            }
+        ]
+    },
+    {
+        "name": "rest2soap.service.$NifSoapService$Definition$Reference",
+        "methods": [
+            {
+                "name": "<init>",
+                "parameterTypes": [
+                    
+                ]
+            }
+        ]
+    },
+    {
+        "name": "rest2soap.service.$RecargoEquivalenciaSoapService$Definition$Reference",
         "methods": [
             {
                 "name": "<init>",

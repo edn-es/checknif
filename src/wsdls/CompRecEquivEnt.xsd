@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/bugc/jdit/ws/CompRecEquivEnt.xsd" 
+		xmlns="http://www.w3.org/2001/XMLSchema" 
+		xmlns:CompRecEquivEnt="https://www2.agenciatributaria.gob.es/static_files/common/internet/dep/aplicaciones/es/aeat/bugc/jdit/ws/CompRecEquivEnt.xsd" 
+		elementFormDefault="qualified">
+		
+	<element name="CompRecEquivEnt" type="CompRecEquivEnt:CompRecEquivEnt"/>
+	
+	<complexType name="CompRecEquivEnt">
+		<annotation>
+			<documentation>
+				Nif : Nif a verificar
+				Nombre: Nombre o Razón Social
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="Contribuyente">
+				<complexType>
+					<sequence>
+						<element name="Nif" type="string"/>
+						<element name="Nombre" type="string"/>
+					</sequence>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+</schema>
