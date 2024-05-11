@@ -1,9 +1,11 @@
 package rest2soap;
 
 import io.micronaut.http.HttpRequest;
+import io.micronaut.http.MediaType;
 import io.micronaut.http.client.BlockingHttpClient;
 import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
+import io.micronaut.http.client.multipart.MultipartBody;
 import io.micronaut.http.uri.UriBuilder;
 import io.micronaut.runtime.EmbeddedApplication;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
@@ -14,7 +16,9 @@ import rest2soap.api.NifRequest;
 import rest2soap.model.Contribuyente;
 import rest2soap.model.ContribuyenteRequest;
 
+import java.io.File;
 import java.net.URI;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 
@@ -70,6 +74,20 @@ class Rest2soapTest {
         BlockingHttpClient client = httpClient.toBlocking();
         URI uri = UriBuilder.of("/").path("/recargo/50954791Q").build();
         var str = client.retrieve(HttpRequest.GET(uri));
+        System.out.println(str);
+    }
+
+    @Test
+    void testFilterRecargo(@Client("/") HttpClient httpClient) throws Exception{
+        BlockingHttpClient client = httpClient.toBlocking();
+        URI uri = UriBuilder.of("/").path("/recargo").build();
+        var tmp = Files.createTempFile("checknif", "tmp");
+        Files.writeString(tmp,"123456789Q");
+        MultipartBody requestBody = MultipartBody.builder()
+                .addPart("file", "file.tmp",tmp.toFile()).build();
+        HttpRequest<?> req = HttpRequest.POST(uri,
+                requestBody).contentType(MediaType.MULTIPART_FORM_DATA);
+        var str = client.retrieve(req);
         System.out.println(str);
     }
 }

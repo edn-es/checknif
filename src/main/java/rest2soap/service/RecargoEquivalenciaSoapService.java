@@ -9,8 +9,13 @@ import jakarta.inject.Singleton;
 import org.apache.axis2.transport.http.HTTPConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import reactor.core.publisher.Flux;
 import rest2soap.config.SslFactory;
 import rest2soap.model.RecargoEquivalenciaResponse;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 @Singleton
 @Context
@@ -33,6 +38,16 @@ public class RecargoEquivalenciaSoapService {
         return check(contribuyente);
     }
 
+    public Stream<String> filter(Stream<String>nifs){
+        return nifs.parallel().filter(nif->{
+            var contribuyente = new Contribuyente_type0();
+            contribuyente.setNif(nif);
+            contribuyente.setNombre(" ");
+            RecargoEquivalenciaResponse response = check(contribuyente);
+            return response.enRecargo();
+        }).distinct();
+    }
+
     protected RecargoEquivalenciaResponse check(Contribuyente_type0 contribuyente) {
 
         var ent = new CompRecEquivEnt();
@@ -48,8 +63,8 @@ public class RecargoEquivalenciaSoapService {
             return new RecargoEquivalenciaResponse(contribuyente.getNif(), ok, result);
 
         }catch(Exception e){
-            logger.error("Error checking recargo", e);
-            return new RecargoEquivalenciaResponse(contribuyente.getNif(), false, e.getMessage());
+            logger.info("Error checking recargo {}", e.getMessage());
+            return new RecargoEquivalenciaResponse(contribuyente.getNif(), false, "Error");
         }
     }
 
