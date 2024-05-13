@@ -6,15 +6,11 @@ import es.gob.agenciatributaria.www2.static_files.common.internet.dep.aplicacion
 import es.gob.agenciatributaria.www2.static_files.common.internet.dep.aplicaciones.es.aeat.bugc.jdit.ws.comprecequivu_wsdl.CompRecEquivUServiceCompRecEquivUPort3Stub;
 import io.micronaut.context.annotation.Context;
 import jakarta.inject.Singleton;
-import org.apache.axis2.transport.http.HTTPConstants;
+import org.apache.axis2.AxisFault;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import reactor.core.publisher.Flux;
-import rest2soap.config.SslFactory;
 import rest2soap.model.RecargoEquivalenciaResponse;
 
-import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 @Singleton
@@ -24,11 +20,8 @@ public class RecargoEquivalenciaSoapService {
     private static final Logger logger = LoggerFactory.getLogger(RecargoEquivalenciaSoapService.class);
     private final CompRecEquivUServiceCompRecEquivUPort3Stub recEquivStub;
 
-    public RecargoEquivalenciaSoapService(SslFactory sslFactory) throws Exception {
+    public RecargoEquivalenciaSoapService() throws AxisFault {
         this.recEquivStub = new CompRecEquivUServiceCompRecEquivUPort3Stub();
-        this.recEquivStub._getServiceClient()
-                .getOptions()
-                .setProperty(HTTPConstants.CACHED_HTTP_CLIENT, sslFactory.sslEnabledHttpClient());
     }
 
     public RecargoEquivalenciaResponse checkRecargoEquivalencia(String nif) {
