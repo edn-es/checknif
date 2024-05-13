@@ -5,6 +5,9 @@
                 "pattern": "\\QMETA-INF/axiom.xml\\E"
             },
             {
+                "pattern": "\\QMETA-INF/http/mime.types\\E"
+            },
+            {
                 "pattern": "\\QMETA-INF/micronaut/io.micronaut.context.ApplicationContextConfigurer\\E"
             },
             {

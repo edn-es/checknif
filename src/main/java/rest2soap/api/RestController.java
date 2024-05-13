@@ -1,20 +1,29 @@
 package rest2soap.api;
 
+import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Post;
+import io.micronaut.http.multipart.StreamingFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 import rest2soap.model.Contribuyente;
 import rest2soap.model.ContribuyenteRequest;
 import rest2soap.model.RecargoEquivalenciaResponse;
 import rest2soap.service.NifSoapService;
 import rest2soap.service.RecargoEquivalenciaSoapService;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.List;
+import java.util.stream.Stream;
 
 
 @Controller
@@ -66,5 +75,20 @@ public class RestController {
         logger.info("Validate recargo equivalencia {}", nif);
         return Mono.fromCallable(()->
                 recargoEquivalenciaSoapService.checkRecargoEquivalencia(nif));
+    }
+
+    @Post(value="/recargo/", consumes = {MediaType.MULTIPART_FORM_DATA}, produces = {MediaType.APPLICATION_JSON})
+    Flux<String> filterRecargoEquivalencia(StreamingFileUpload file) throws IOException {
+        logger.info("Filter recargo equivalencia {} bytes", file.getSize());
+        var tmp = Files.createTempFile(file.getFilename(), "temp");
+        return Flux.from(file.transferTo(tmp.toFile())).subscribeOn(Schedulers.boundedElastic())
+                .flatMap(f->{
+                    try {
+                        Stream<String> list =Files.lines(tmp);
+                        return Flux.fromStream(recargoEquivalenciaSoapService.filter(list));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 }

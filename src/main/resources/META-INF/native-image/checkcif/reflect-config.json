@@ -5253,6 +5253,37 @@
         "name": "io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketServerCompressionHandler"
     },
     {
+        "name": "io.netty.handler.stream.ChunkedWriteHandler",
+        "methods": [
+            {
+                "name": "channelInactive",
+                "parameterTypes": [
+                    "io.netty.channel.ChannelHandlerContext"
+                ]
+            },
+            {
+                "name": "channelWritabilityChanged",
+                "parameterTypes": [
+                    "io.netty.channel.ChannelHandlerContext"
+                ]
+            },
+            {
+                "name": "flush",
+                "parameterTypes": [
+                    "io.netty.channel.ChannelHandlerContext"
+                ]
+            },
+            {
+                "name": "write",
+                "parameterTypes": [
+                    "io.netty.channel.ChannelHandlerContext",
+                    "java.lang.Object",
+                    "io.netty.channel.ChannelPromise"
+                ]
+            }
+        ]
+    },
+    {
         "name": "io.netty.handler.timeout.IdleStateHandler",
         "methods": [
             {
@@ -5298,6 +5329,14 @@
     },
     {
         "name": "io.netty.internal.tcnative.SSLContext"
+    },
+    {
+        "name": "io.netty.util.AbstractReferenceCounted",
+        "fields": [
+            {
+                "name": "refCnt"
+            }
+        ]
     },
     {
         "name": "io.netty.util.DefaultAttributeMap",
@@ -6952,6 +6991,14 @@
         ]
     },
     {
+        "name": "reactor.core.publisher.FluxFlatMap$FlatMapInner",
+        "fields": [
+            {
+                "name": "s"
+            }
+        ]
+    },
+    {
         "name": "reactor.core.publisher.FluxFlatMap$FlatMapMain",
         "fields": [
             {
@@ -6978,6 +7025,20 @@
         "fields": [
             {
                 "name": "requested"
+            }
+        ]
+    },
+    {
+        "name": "reactor.core.publisher.FluxPublishOn$PublishOnSubscriber",
+        "fields": [
+            {
+                "name": "discardGuard"
+            },
+            {
+                "name": "requested"
+            },
+            {
+                "name": "wip"
             }
         ]
     },
@@ -7036,6 +7097,20 @@
         "fields": [
             {
                 "name": "requestedOnce"
+            }
+        ]
+    },
+    {
+        "name": "reactor.core.publisher.MonoCreate$DefaultMonoSink",
+        "fields": [
+            {
+                "name": "disposable"
+            },
+            {
+                "name": "requestConsumer"
+            },
+            {
+                "name": "state"
             }
         ]
     },
@@ -7100,6 +7175,37 @@
         ]
     },
     {
+        "name": "reactor.core.publisher.SinkManyUnicast",
+        "fields": [
+            {
+                "name": "discardGuard"
+            },
+            {
+                "name": "onTerminate"
+            },
+            {
+                "name": "once"
+            },
+            {
+                "name": "requested"
+            },
+            {
+                "name": "wip"
+            }
+        ]
+    },
+    {
+        "name": "reactor.core.publisher.SinksSpecs$AbstractSerializedSink",
+        "fields": [
+            {
+                "name": "lockedAt"
+            },
+            {
+                "name": "wip"
+            }
+        ]
+    },
+    {
         "name": "reactor.core.publisher.StrictSubscriber",
         "fields": [
             {
@@ -7113,6 +7219,38 @@
             },
             {
                 "name": "wip"
+            }
+        ]
+    },
+    {
+        "name": "reactor.core.scheduler.BoundedElasticScheduler",
+        "fields": [
+            {
+                "name": "state"
+            }
+        ]
+    },
+    {
+        "name": "reactor.core.scheduler.BoundedElasticScheduler$BoundedServices",
+        "fields": [
+            {
+                "name": "busyStates"
+            }
+        ]
+    },
+    {
+        "name": "reactor.core.scheduler.BoundedElasticScheduler$BoundedState",
+        "fields": [
+            {
+                "name": "markCount"
+            }
+        ]
+    },
+    {
+        "name": "reactor.core.scheduler.DelegateServiceScheduler",
+        "fields": [
+            {
+                "name": "state"
             }
         ]
     },
@@ -7136,6 +7274,20 @@
         ]
     },
     {
+        "name": "reactor.core.scheduler.WorkerTask",
+        "fields": [
+            {
+                "name": "future"
+            },
+            {
+                "name": "parent"
+            },
+            {
+                "name": "thread"
+            }
+        ]
+    },
+    {
         "name": "reactor.util.concurrent.MpscLinkedQueue",
         "fields": [
             {
@@ -7151,6 +7303,22 @@
         "fields": [
             {
                 "name": "next"
+            }
+        ]
+    },
+    {
+        "name": "reactor.util.concurrent.SpscArrayQueueConsumer",
+        "fields": [
+            {
+                "name": "consumerIndex"
+            }
+        ]
+    },
+    {
+        "name": "reactor.util.concurrent.SpscArrayQueueProducer",
+        "fields": [
+            {
+                "name": "producerIndex"
             }
         ]
     },
@@ -7209,6 +7377,12 @@
             },
             {
                 "name": "testCifs",
+                "parameterTypes": [
+                    "io.micronaut.http.client.HttpClient"
+                ]
+            },
+            {
+                "name": "testFilterRecargo",
                 "parameterTypes": [
                     "io.micronaut.http.client.HttpClient"
                 ]
