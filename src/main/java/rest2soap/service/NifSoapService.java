@@ -47,7 +47,7 @@ public class NifSoapService {
         var contribuyentes = request.stream().map(c->{
             var ret = new Contribuyente_type0();
             ret.setNif(c.nif());
-            ret.setNombre(c.nombre());
+            ret.setNombre(c.nombre() == null ? "" : c.nombre());
             return ret;
         }).toList();
         return check(contribuyentes);
