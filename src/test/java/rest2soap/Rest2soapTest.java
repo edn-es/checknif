@@ -9,19 +9,18 @@ import io.micronaut.http.client.multipart.MultipartBody;
 import io.micronaut.http.uri.UriBuilder;
 import io.micronaut.runtime.EmbeddedApplication;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
-import org.junit.jupiter.api.*;
 import jakarta.inject.Inject;
-import rest2soap.api.NifRequest;
-import rest2soap.model.Contribuyente;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import rest2soap.model.ContribuyenteRequest;
 import rest2soap.repository.Member;
 import rest2soap.repository.MemberRepository;
 
-import java.io.File;
 import java.net.URI;
 import java.nio.file.Files;
 import java.util.List;
-import java.util.Map;
 
 @MicronautTest
 class Rest2soapTest {
