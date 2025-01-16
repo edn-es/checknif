@@ -1,10 +1,7 @@
 package rest2soap.api;
 
 import io.micronaut.http.MediaType;
-import io.micronaut.http.annotation.Body;
-import io.micronaut.http.annotation.Controller;
-import io.micronaut.http.annotation.Get;
-import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.*;
 import io.micronaut.http.multipart.StreamingFileUpload;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +11,7 @@ import reactor.core.scheduler.Schedulers;
 import rest2soap.model.Contribuyente;
 import rest2soap.model.ContribuyenteRequest;
 import rest2soap.model.RecargoEquivalenciaResponse;
+import rest2soap.service.MemberService;
 import rest2soap.service.NifSoapService;
 import rest2soap.service.RecargoEquivalenciaSoapService;
 
@@ -23,6 +21,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 
@@ -34,51 +33,54 @@ public class RestController {
 
     private final RecargoEquivalenciaSoapService recargoEquivalenciaSoapService;
 
+    private final MemberService memberService;
+
     public RestController(NifSoapService nifSoapService,
-                          RecargoEquivalenciaSoapService recargoEquivalenciaSoapService) {
+                          RecargoEquivalenciaSoapService recargoEquivalenciaSoapService,
+                          MemberService memberService) {
         this.nifSoapService = nifSoapService;
         this.recargoEquivalenciaSoapService = recargoEquivalenciaSoapService;
+        this.memberService = memberService;
     }
 
-    @Post("/cifs")
-    Flux<Contribuyente> cifs(@Body List<String> request)  {
-        logger.info("Validate cifs {}", request);
-        return Flux.fromStream(()-> nifSoapService.checkCifs(request) );
-    }
-
-    @Post("/cif")
-    Mono<Contribuyente> cifs(String cif)  {
-        logger.info("Validate cifs {}", cif);
-        return Mono.fromCallable(()->
-                nifSoapService.checkCifs(List.of(cif)).findFirst().orElse(new Contribuyente(
-                        cif, "", false, "NO ENCONTRADO"
-                )) );
-    }
-
-    @Post("/nifs")
-    Flux<Contribuyente> nifs(@Body List<ContribuyenteRequest> contribuyentes)  {
+    @Post("/")
+    Flux<Contribuyente> nifs(@Body List<ContribuyenteRequest> contribuyentes, @Header("X-API-Key") String apiKey)  {
+        memberService.validate(apiKey);
         logger.info("Validate nifs {}", contribuyentes.size());
         return Flux.fromStream(()-> nifSoapService.checkNifs(contribuyentes));
     }
 
-    @Post("/nif")
-    Mono<Contribuyente> nif(@Body ContribuyenteRequest contribuyente)  {
-        logger.info("Validate nif {}", contribuyente.nif());
+    @Get("/{apiKey}/{nif}")
+    Mono<Contribuyente> cif(String nif, String apiKey)  {
+        memberService.validate(apiKey);
+        logger.info("Validate nif {}", nif);
         return Mono.fromCallable(()->
-                nifSoapService.checkNifs(List.of(contribuyente)).findFirst().orElse(new Contribuyente(
-                        contribuyente.nif(), contribuyente.nombre(), false, "NO ENCONTRADO"
+                nifSoapService.checkCifs(List.of(nif)).findFirst().orElse(new Contribuyente(
+                        nif, "", false, "NO ENCONTRADO"
                 )));
     }
 
-    @Get("/recargo/{nif}")
-    Mono<RecargoEquivalenciaResponse> recargoEquivalencia(String nif)  {
+    @Get("/{apiKey}/{nif}/{nombre}")
+    Mono<Contribuyente> nif(String nif, String nombre, String apiKey)  {
+        memberService.validate(apiKey);
+        logger.info("Validate nif {}", nif);
+        return Mono.fromCallable(()->
+                nifSoapService.checkNifs(List.of(new ContribuyenteRequest(nif, nombre))).findFirst().orElse(new Contribuyente(
+                        nif, nombre, false, "NO ENCONTRADO"
+                )));
+    }
+
+    @Get("/{apiKey}/recargo/{nif}")
+    Mono<RecargoEquivalenciaResponse> recargoEquivalencia(String nif, String apiKey) {
+        memberService.validate(apiKey);
         logger.info("Validate recargo equivalencia {}", nif);
         return Mono.fromCallable(()->
                 recargoEquivalenciaSoapService.checkRecargoEquivalencia(nif));
     }
 
     @Post(value="/recargo/", consumes = {MediaType.MULTIPART_FORM_DATA}, produces = {MediaType.APPLICATION_JSON})
-    Flux<String> filterRecargoEquivalencia(StreamingFileUpload file) throws IOException {
+    Flux<String> filterRecargoEquivalencia(StreamingFileUpload file, @Header("X-API-Key") String apiKey) throws IOException {
+        memberService.validate(apiKey);
         logger.info("Filter recargo equivalencia {} bytes", file.getSize());
         var tmp = Files.createTempFile(file.getFilename(), "temp");
         return Flux.from(file.transferTo(tmp.toFile())).subscribeOn(Schedulers.boundedElastic())
